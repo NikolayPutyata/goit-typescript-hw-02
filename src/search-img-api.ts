@@ -4,7 +4,17 @@ const API_KEY = "Xdy94vcF56BSiQfuDNbwyg5MdtToIT8jxqpN3UvVkqg";
 
 axios.defaults.baseURL = `https://api.unsplash.com/search/photos/`;
 
-const searchImagesForTopic = async (topic, page) => {
+type serverObject = {
+  id: string;
+  likes: number;
+  alt_description: string;
+  urls: {
+    regular: string;
+    small: string;
+  };
+}
+
+const searchImagesForTopic = async (topic: string, page: number): Promise<serverObject[]> => {
   const res = await axios.get(
     `?client_id=${API_KEY}&query=${topic}&per_page=8&page=${page}`
   );

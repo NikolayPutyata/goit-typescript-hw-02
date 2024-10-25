@@ -1,11 +1,16 @@
 import toast from "react-hot-toast";
 import s from "./SearchBar.module.css";
+import React from "react";
 
-const SearchBar = ({ onSubmit }) => {
-  const handlerSubmit = (e) => {
+type Props = {
+  onSubmit: (topic: string) => void;
+};
+
+const SearchBar = ({ onSubmit }: Props) => {
+  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.target;
-    const topic = form.elements.topic.value;
+    const form = e.currentTarget;
+    const topic = (form.elements.namedItem("topic") as HTMLInputElement).value;
 
     if (topic.trim() === "") {
       toast.error("Write some text!");
@@ -20,23 +25,21 @@ const SearchBar = ({ onSubmit }) => {
   };
 
   return (
-    <>
-      <header className={s.header}>
-        <form onSubmit={handlerSubmit} className={s.form}>
-          <input
-            name="topic"
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            className={s.input}
-          />
-          <button type="submit" className={s.button}>
-            Search
-          </button>
-        </form>
-      </header>
-    </>
+    <header className={s.header}>
+      <form onSubmit={handlerSubmit} className={s.form}>
+        <input
+          name="topic"
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          className={s.input}
+        />
+        <button type="submit" className={s.button}>
+          Search
+        </button>
+      </form>
+    </header>
   );
 };
 

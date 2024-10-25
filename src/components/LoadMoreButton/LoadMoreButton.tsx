@@ -1,6 +1,10 @@
 import s from "./LoadMoreButton.module.css";
 
-const LoadMoreButton = ({ loadMoreFu }) => {
+type Props = {
+  loadMoreFu: () => void,
+}
+
+const LoadMoreButton = ({ loadMoreFu }: Props) => {
   return (
     <div className={s.loadMoreDiv}>
       <button className={s.loadMoreButton} onClick={() => loadMoreFu()}>

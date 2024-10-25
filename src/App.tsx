@@ -9,18 +9,28 @@ import LoadMoreButton from "./components/LoadMoreButton/LoadMoreButton.jsx";
 import ImageModal from "./components/ImageModal/ImageModal.jsx";
 import Modal from "react-modal";
 
+type serverObject = {
+  id: string;
+  likes: number;
+  alt_description: string;
+  urls: {
+    regular: string;
+    small: string;
+  };
+}
+
 const App = () => {
-  const [serverData, setServerData] = useState([]);
-  const [loader, setLoader] = useState(false);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [topic, setTopic] = useState("");
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
+  const [serverData, setServerData] = useState<serverObject[]>([]);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [topic, setTopic] = useState<string>("");
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
 
   Modal.setAppElement("#root");
 
-  const openModal = (imageUrl) => {
+  const openModal = (imageUrl: string) => {
     setCurrentImage(imageUrl);
     setModalIsOpen(true);
   };
@@ -30,7 +40,7 @@ const App = () => {
     setCurrentImage(null);
   };
 
-  const submitFu = async (newTopic) => {
+  const submitFu = async (newTopic: string): Promise<void> => {
     try {
       setPage(1);
       setError(false);
@@ -46,10 +56,10 @@ const App = () => {
     }
   };
 
-  const loadMoreFu = async () => {
+  const loadMoreFu = async (): Promise<void> => {
     try {
       setLoader(true);
-      const nextPage = page + 1;
+      const nextPage: number = page + 1;
 
       const data = await searchImagesForTopic(topic, nextPage);
       setPage(nextPage);
