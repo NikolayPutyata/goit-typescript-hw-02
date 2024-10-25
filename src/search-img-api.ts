@@ -14,8 +14,12 @@ type serverObject = {
   };
 }
 
+type ApiResponse = {
+  results: serverObject[];
+};
+
 const searchImagesForTopic = async (topic: string, page: number): Promise<serverObject[]> => {
-  const res = await axios.get(
+  const res = await axios.get<ApiResponse>(
     `?client_id=${API_KEY}&query=${topic}&per_page=8&page=${page}`
   );
 
